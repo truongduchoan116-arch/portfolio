@@ -51,30 +51,25 @@ SITE = {
 # 2. HỒ SƠ CÁ NHÂN
 # ---------------------------------------------------------------------
 PROFILE = {
-    "full_name": "Họ và Tên Của Bạn",        # TODO: thay bằng tên thật
-    "display_name": "Tên Hiển Thị",          # TODO: tên ngắn dùng ở logo/footer
+    "full_name": "Trương Đưc Hoan",        # TODO: thay bằng tên thật
+    "display_name": "HOAN",          # TODO: tên ngắn dùng ở logo/footer
     "title": "Full-Stack Developer | AI Enthusiast",
     # Ảnh đại diện: đặt file vào static/assets/ rồi ghi "assets/avatar.jpg".
     # Để trống sẽ hiện avatar chữ cái đầu.
     "avatar": "",
     "avatar_alt": tr("Ảnh đại diện", "Profile photo"),
-    "email": "",                             # TODO: ví dụ "ban@example.com"
+    "email": "truongduchoan116@gmail.com",                             # TODO: ví dụ "ban@example.com"
     "intro": tr(
-        "Sinh viên Khoa học Máy tính đang hướng tới vai trò Full-Stack AI Developer. "
-        "Mình thích xây dựng sản phẩm phần mềm hoàn chỉnh và học hỏi liên tục.",
-        "Computer Science student aiming to become a Full-Stack AI Developer. "
-        "I enjoy building complete software products and learning continuously.",
+        "Chào bạn. Bạn cần gì ở mình.",
     ),
     "focus": [
-        tr("Phát triển web full-stack", "Full-stack web development"),
-        tr("Học máy và ứng dụng AI", "Machine learning and AI applications"),
+        tr("Mua/bán acc Liên Quân", "làm chung sức"),
     ],
     # Trạng thái sẵn sàng. status: "open" | "busy" | "closed" | "" (ẩn)
     "availability": {
         "status": "open",
         "label": tr("Đang tìm cơ hội thực tập", "Open to internship opportunities"),
-    },
-    "example": True,                          # bỏ dòng này khi đã điền thông tin thật
+    },                    # bỏ dòng này khi đã điền thông tin thật
 }
 
 # ---------------------------------------------------------------------
@@ -115,10 +110,10 @@ LINKS = [
     {"id": "linkedin", "platform": "LinkedIn", "icon": "linkedin", "url": "",
      "description": tr("Hồ sơ nghề nghiệp", "Professional profile"),
      "custom_label": "", "visible": True, "order": 2, "new_tab": True},
-    {"id": "facebook", "platform": "Facebook", "icon": "facebook", "url": "",
+    {"id": "facebook", "platform": "Facebook", "icon": "facebook", "url": "https://www.facebook.com/hoancubu100cm?locale=vi_VN",
      "description": tr("Kết nối cá nhân", "Personal connection"),
      "custom_label": "", "visible": True, "order": 3, "new_tab": True},
-    {"id": "youtube", "platform": "YouTube", "icon": "youtube", "url": "",
+    {"id": "youtube", "platform": "YouTube", "icon": "youtube", "url": "https://www.youtube.com/results?search_query=dh+thao+tac+tay",
      "description": tr("Video và bài giảng", "Videos and talks"),
      "custom_label": "", "visible": True, "order": 4, "new_tab": True},
     {"id": "blog", "platform": "Blog", "icon": "link", "url": "",
