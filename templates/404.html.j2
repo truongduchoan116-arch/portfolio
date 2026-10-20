@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="{{ lang }}" data-theme-default="{{ site.default_theme }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 | {{ profile.full_name }}</title>
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="dark light">
+  <link rel="icon" href="{{ root }}favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ root }}css/style.css">
+  <script>
+    (function () {
+      var t = document.documentElement.getAttribute("data-theme-default") || "dark";
+      try { var s = localStorage.getItem("theme"); if (s === "light" || s === "dark") t = s; } catch (e) {}
+      if (t === "system") t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+</head>
+<body>
+  <main id="main" class="notfound">
+    <div class="container">
+      <p class="code">404</p>
+      <h1>{{ ui.err_404_title }}</h1>
+      <p class="lead">{{ ui.err_404_text }}</p>
+      <a class="btn btn-primary" href="{{ root }}">{{ ui.err_404_back }}</a>
+    </div>
+  </main>
+</body>
+</html>

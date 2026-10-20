@@ -1,0 +1,323 @@
+{% extends "base.html.j2" %}
+{% macro example_tag(flag) %}{% if flag %}<span class="badge badge-example" title="{{ ui.example_note }}">{{ ui.example_badge }}</span>{% endif %}{% endmacro %}
+
+{% block body %}
+<header class="site-header" id="top">
+  <div class="container header-inner">
+    <a class="brand" href="#top" aria-label="{{ profile.display_name }}">
+      <span class="brand-mark" aria-hidden="true">{{ profile.initials }}</span>
+      <span class="brand-name">{{ profile.display_name }}</span>
+    </a>
+    <nav id="site-nav" class="nav" aria-label="Main">
+      <ul>
+        <li><a href="#about">{{ ui.nav_about }}</a></li>
+        <li><a href="#projects">{{ ui.nav_projects }}</a></li>
+        <li><a href="#skills">{{ ui.nav_skills }}</a></li>
+        {% if experience %}<li><a href="#experience">{{ ui.nav_experience }}</a></li>{% endif %}
+        {% if links %}<li><a href="#links">{{ ui.nav_links }}</a></li>{% endif %}
+        <li><a href="#contact">{{ ui.nav_contact }}</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      {% if switch %}
+      <a class="btn btn-ghost btn-sm" href="{{ switch.href }}" hreflang="{{ switch.lang }}" lang="{{ switch.lang }}" aria-label="{{ switch.aria }}">{{ switch.label }}</a>
+      {% endif %}
+      <button type="button" class="icon-btn" id="theme-toggle" aria-label="{{ ui.theme_toggle }}" hidden>
+        <span class="theme-icon-dark">{{ icon('sun') }}</span><span class="theme-icon-light">{{ icon('moon') }}</span>
+      </button>
+      <button type="button" class="icon-btn menu-btn" id="menu-btn" aria-expanded="false" aria-controls="site-nav"
+              data-label-open="{{ ui.menu_open }}" data-label-close="{{ ui.menu_close }}" aria-label="{{ ui.menu_open }}" hidden>
+        <span class="menu-icon-open">{{ icon('menu') }}</span><span class="menu-icon-close">{{ icon('x') }}</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<noscript><p class="noscript container">{{ ui.noscript }}</p></noscript>
+
+<main id="main" tabindex="-1">
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        {% if profile.availability_status %}
+        <p class="status status-{{ profile.availability_status }}"><span class="dot" aria-hidden="true"></span>{{ profile.availability_label }}</p>
+        {% endif %}
+        <h1 id="hero-title">{{ profile.full_name }} {{ example_tag(profile.example) }}</h1>
+        <p class="hero-title-role">{{ profile.title }}</p>
+        <p class="lead">{{ profile.intro }}</p>
+        {% if profile.focus %}
+        <ul class="chips" aria-label="{{ ui.interests }}">
+          {% for f in profile.focus %}<li>{{ f }}</li>{% endfor %}
+        </ul>
+        {% endif %}
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#contact">{{ ui.cta_contact }}</a>
+          <a class="btn btn-secondary" href="#projects">{{ ui.cta_projects }}</a>
+          {% if resume.href %}
+          <a class="btn btn-ghost" href="{{ resume.href if resume.external else prefix ~ resume.href }}"
+             {% if resume.external %}target="_blank" rel="noopener noreferrer"{% else %}download="{{ resume.download_name }}"{% endif %}
+             data-track="resume">{{ icon('download') }}{{ ui.cta_resume }}</a>
+          {% else %}
+          <span class="btn btn-ghost is-disabled" aria-disabled="true" title="{{ ui.resume_missing }}">{{ icon('download') }}{{ ui.resume_missing }}</span>
+          {% endif %}
+        </div>
+        {% if links %}
+        <ul class="social-row" aria-label="{{ ui.links_title }}">
+          {% for l in links %}
+          <li><a class="icon-btn" href="{{ l.url }}" aria-label="{{ l.label }}" title="{{ l.label }}"
+                 data-track="{{ l.id }}" {% if l.new_tab %}target="_blank" rel="noopener noreferrer me"{% endif %}>{{ icon(l.icon) }}</a></li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+      <div class="hero-avatar">
+        {% if profile.avatar %}
+        <img src="{{ prefix ~ profile.avatar }}" alt="{{ profile.avatar_alt }}" width="320" height="320" fetchpriority="high">
+        {% else %}
+        <div class="avatar-placeholder" role="img" aria-label="{{ profile.avatar_alt }}">{{ profile.initials }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section" aria-labelledby="about-title">
+    <div class="container">
+      <h2 id="about-title">{{ ui.about_title }} {{ example_tag(about.example) }}</h2>
+      <p class="lead narrow">{{ about.summary }}</p>
+      <div class="grid grid-2">
+        {% if about.education %}
+        <article class="card">
+          <h3>{{ ui.education }}</h3>
+          <ul class="plain">
+            {% for e in about.education %}
+            <li><strong>{{ e.qualification }}</strong><br>{{ e.institution }}{% if e.dates %} <span class="muted">· {{ e.dates }}</span>{% endif %}</li>
+            {% endfor %}
+          </ul>
+        </article>
+        {% endif %}
+        {% if about.interests %}
+        <article class="card">
+          <h3>{{ ui.interests }}</h3>
+          <ul class="chips">{% for i in about.interests %}<li>{{ i }}</li>{% endfor %}</ul>
+        </article>
+        {% endif %}
+      </div>
+      <details class="more">
+        <summary>{{ ui.more_details }}</summary>
+        <div class="grid grid-2">
+          {% if about.goals %}<article class="card"><h3>{{ ui.goals }}</h3><p>{{ about.goals }}</p></article>{% endif %}
+          {% if about.philosophy %}<article class="card"><h3>{{ ui.philosophy }}</h3><p>{{ about.philosophy }}</p></article>{% endif %}
+          {% if about.languages %}
+          <article class="card"><h3>{{ ui.languages }}</h3>
+            <ul class="plain">{% for l in about.languages %}<li>{{ l.name }}{% if l.level %} <span class="muted">· {{ l.level }}</span>{% endif %}</li>{% endfor %}</ul>
+          </article>
+          {% endif %}
+          {% if about.learning %}
+          <article class="card"><h3>{{ ui.learning }}</h3>
+            <ul class="plain">{% for l in about.learning %}<li>{{ l }}</li>{% endfor %}</ul>
+          </article>
+          {% endif %}
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  {% if projects %}
+  <section id="projects" class="section" aria-labelledby="projects-title">
+    <div class="container">
+      <h2 id="projects-title">{{ ui.projects_title }}</h2>
+      <div class="toolbar" id="project-tools" hidden>
+        <label class="search">
+          <span class="sr-only">{{ ui.search_projects }}</span>
+          {{ icon('search') }}
+          <input type="search" id="project-search" placeholder="{{ ui.search_projects }}" autocomplete="off">
+        </label>
+        {% if project_categories|length > 1 %}
+        <div class="filters" role="group" aria-label="{{ ui.nav_projects }}">
+          <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">{{ ui.filter_all }}</button>
+          {% for c in project_categories %}
+          <button type="button" class="filter" data-filter="{{ c.key }}" aria-pressed="false">{{ c.label }}</button>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      <ul class="grid grid-3 project-list" id="project-list">
+        {% for p in projects %}
+        <li class="project-item" data-category="{{ p.category }}"
+            data-search="{{ (p.name ~ ' ' ~ p.description ~ ' ' ~ p.stack|join(' ') ~ ' ' ~ p.category_label)|lower }}">
+          <article class="card project">
+            <div class="cover">
+              {% if p.cover %}<img src="{{ prefix ~ p.cover }}" alt="" loading="lazy" width="640" height="360">
+              {% else %}<div class="cover-fallback" aria-hidden="true">{{ icon('globe') }}</div>{% endif %}
+            </div>
+            <div class="project-body">
+              <div class="project-head">
+                <h3>{{ p.name }}</h3>
+                <div class="badges">
+                  {{ example_tag(p.example) }}
+                  {% if p.status %}<span class="badge badge-{{ p.status }}">{{ ui['status_' ~ p.status] or p.status }}</span>{% endif %}
+                </div>
+              </div>
+              <p>{{ p.description }}</p>
+              {% if p.role %}<p class="meta"><strong>{{ ui.role }}:</strong> {{ p.role }}</p>{% endif %}
+              {% if p.features %}
+              <ul class="features">{% for f in p.features %}<li>{{ f }}</li>{% endfor %}</ul>
+              {% endif %}
+              {% if p.stack %}<ul class="chips chips-sm" aria-label="Tech stack">{% for s in p.stack %}<li>{{ s }}</li>{% endfor %}</ul>{% endif %}
+              {% if p.repo_url or p.demo_url %}
+              <div class="project-links">
+                {% if p.repo_url %}<a href="{{ p.repo_url }}" target="_blank" rel="noopener noreferrer" data-track="repo-{{ p.id }}">{{ icon('github') }}{{ ui.repo }}<span class="sr-only"> – {{ p.name }}</span></a>{% endif %}
+                {% if p.demo_url %}<a href="{{ p.demo_url }}" target="_blank" rel="noopener noreferrer" data-track="demo-{{ p.id }}">{{ icon('external') }}{{ ui.demo }}<span class="sr-only"> – {{ p.name }}</span></a>{% endif %}
+              </div>
+              {% endif %}
+            </div>
+          </article>
+        </li>
+        {% endfor %}
+      </ul>
+      <p class="empty" id="project-empty" hidden>{{ ui.no_projects }}</p>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- SKILLS -->
+  {% if skills.groups %}
+  <section id="skills" class="section" aria-labelledby="skills-title">
+    <div class="container">
+      <h2 id="skills-title">{{ ui.skills_title }} {{ example_tag(skills.example) }}</h2>
+      <div class="grid grid-3">
+        {% for g in skills.groups %}
+        <article class="card">
+          <h3>{{ g.name }}</h3>
+          <ul class="chips">{% for s in g['items'] %}<li>{{ s }}</li>{% endfor %}</ul>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- EXPERIENCE -->
+  {% if experience %}
+  <section id="experience" class="section" aria-labelledby="exp-title">
+    <div class="container">
+      <h2 id="exp-title">{{ ui.experience_title }}</h2>
+      <ol class="timeline">
+        {% for e in experience %}
+        <li class="card">
+          <h3>{{ e.role }} <span class="muted">· {{ e.organization }}</span></h3>
+          {% if e.dates %}<p class="meta">{{ e.dates }}</p>{% endif %}
+          {% if e.description %}<p>{{ e.description }}</p>{% endif %}
+          {% if e.project_id %}<p class="meta"><a href="#projects">{{ ui.nav_projects }}</a></p>{% endif %}
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- LINK HUB -->
+  {% if links %}
+  <section id="links" class="section" aria-labelledby="links-title">
+    <div class="container">
+      <h2 id="links-title">{{ ui.links_title }}</h2>
+      <p class="lead narrow">{{ ui.links_lead }}</p>
+      <ul class="grid grid-3 link-hub">
+        {% for l in links %}
+        <li>
+          <a class="card link-card" href="{{ l.url }}" data-track="{{ l.id }}" {% if l.new_tab %}target="_blank" rel="noopener noreferrer me"{% endif %}>
+            <span class="link-icon">{{ icon(l.icon) }}</span>
+            <span class="link-text"><strong>{{ l.label }}</strong><span class="muted">{{ l.description }}</span></span>
+            {% if l.new_tab %}<span class="sr-only"> (↗)</span>{% endif %}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- CONTACT -->
+  <section id="contact" class="section" aria-labelledby="contact-title">
+    <div class="container">
+      <h2 id="contact-title">{{ ui.contact_title }}</h2>
+      <p class="lead narrow">{{ ui.contact_lead }}</p>
+      <div class="contact-grid">
+        <div class="card">
+          {% if profile.email %}
+          <div class="cta-row">
+            <a class="btn btn-primary" href="mailto:{{ profile.email }}" data-track="email">{{ icon('mail') }}{{ ui.email_me }}</a>
+            <button type="button" class="btn btn-secondary" id="copy-email" data-value="{{ profile.email }}"
+                    data-ok="{{ ui.copied }}" data-fail="{{ ui.copy_failed }}" hidden>{{ icon('copy') }}<span>{{ ui.copy_email }}</span></button>
+          </div>
+          <p class="meta"><span class="muted">{{ profile.email }}</span></p>
+          {% else %}
+          <p class="muted">{{ ui.email_missing }}</p>
+          {% endif %}
+          <div class="cta-row">
+            <button type="button" class="btn btn-ghost" id="share-btn" data-copied="{{ ui.share_copied }}" data-fail="{{ ui.copy_failed }}"
+                    data-title="{{ profile.full_name }}" hidden>{{ icon('share') }}<span>{{ ui.share }}</span></button>
+            {% if site.has_vcard %}
+            <a class="btn btn-ghost" href="{{ prefix }}assets/contact.vcf" download="contact.vcf">{{ icon('user') }}{{ ui.save_contact }}</a>
+            {% endif %}
+          </div>
+          <p class="status-msg" id="action-status" role="status" aria-live="polite"></p>
+        </div>
+
+        {% if site.form_endpoint %}
+        <form class="card form" id="contact-form" action="{{ site.form_endpoint }}" method="post" novalidate
+              data-sending="{{ ui.form_sending }}" data-success="{{ ui.form_success }}" data-error="{{ ui.form_error }}"
+              data-err-required="{{ ui.err_required }}" data-err-email="{{ ui.err_email }}" data-err-short="{{ ui.err_short }}">
+          <div class="field">
+            <label for="f-name">{{ ui.form_name }}</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="f-name-err">
+            <p class="field-error" id="f-name-err" role="alert"></p>
+          </div>
+          <div class="field">
+            <label for="f-email">{{ ui.form_email }}</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="f-email-err">
+            <p class="field-error" id="f-email-err" role="alert"></p>
+          </div>
+          <div class="field">
+            <label for="f-msg">{{ ui.form_message }}</label>
+            <textarea id="f-msg" name="message" rows="5" required aria-describedby="f-msg-err"></textarea>
+            <p class="field-error" id="f-msg-err" role="alert"></p>
+          </div>
+          <div class="field hp" aria-hidden="true">
+            <label for="f-hp">Leave empty</label>
+            <input id="f-hp" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <button type="submit" class="btn btn-primary">{{ ui.form_send }}</button>
+          <p class="status-msg" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>
+      <p class="footer-name"><strong>{{ profile.full_name }}</strong></p>
+      <p class="muted">{{ profile.title }}</p>
+    </div>
+    {% if links %}
+    <ul class="social-row" aria-label="{{ ui.links_title }}">
+      {% for l in links %}
+      <li><a class="icon-btn" href="{{ l.url }}" aria-label="{{ l.label }}" title="{{ l.label }}" data-track="footer-{{ l.id }}"
+             {% if l.new_tab %}target="_blank" rel="noopener noreferrer me"{% endif %}>{{ icon(l.icon) }}</a></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <a class="btn btn-ghost btn-sm" href="#top">{{ icon('arrow-up') }}{{ ui.back_to_top }}</a>
+  </div>
+  <div class="container footer-meta">
+    <p>© {{ site.year }} {{ profile.full_name }}. {{ ui.updated }}: <time datetime="{{ site.updated }}">{{ site.updated }}</time></p>
+    <p class="muted">{{ ui.privacy }}</p>
+  </div>
+</footer>
+{% endblock %}

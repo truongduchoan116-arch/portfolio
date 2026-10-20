@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="{{ lang }}" data-theme-default="{{ site.default_theme }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ profile.full_name }} | {{ profile.title }}{% endblock %}</title>
+  <meta name="description" content="{{ meta_description }}">
+  <meta name="theme-color" content="{{ site.accent }}">
+  <meta name="color-scheme" content="dark light">
+  <meta name="robots" content="index, follow">
+  {% if site.canonical %}
+  <link rel="canonical" href="{{ site.canonical }}">
+  {% for alt in site.alternates %}
+  <link rel="alternate" hreflang="{{ alt.lang }}" href="{{ alt.href }}">
+  {% endfor %}
+  <meta property="og:url" content="{{ site.canonical }}">
+  {% endif %}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ profile.full_name }} | {{ profile.title }}">
+  <meta property="og:description" content="{{ meta_description }}">
+  <meta property="og:locale" content="{{ 'vi_VN' if lang == 'vi' else 'en_US' }}">
+  {% if site.og_image %}
+  <meta property="og:image" content="{{ site.og_image }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="{{ site.og_image }}">
+  {% else %}
+  <meta name="twitter:card" content="summary">
+  {% endif %}
+  <meta name="twitter:title" content="{{ profile.full_name }} | {{ profile.title }}">
+  <meta name="twitter:description" content="{{ meta_description }}">
+  <link rel="icon" href="{{ prefix }}favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="{{ prefix }}manifest.webmanifest">
+  <link rel="stylesheet" href="{{ prefix }}css/style.css">
+  <script>
+    /* Áp dụng theme trước khi vẽ trang để tránh nháy màu */
+    (function () {
+      var t = document.documentElement.getAttribute("data-theme-default") || "dark";
+      try { var s = localStorage.getItem("theme"); if (s === "light" || s === "dark") t = s; } catch (e) {}
+      if (t === "system") t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+  {% if site.plausible_domain %}
+  <script defer data-domain="{{ site.plausible_domain }}" src="https://plausible.io/js/script.js"></script>
+  {% endif %}
+</head>
+<body>
+  <a class="skip-link" href="#main">{{ ui.skip }}</a>
+  {% block body %}{% endblock %}
+  <script src="{{ prefix }}js/main.js" defer></script>
+</body>
+</html>
