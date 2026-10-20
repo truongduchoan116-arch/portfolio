@@ -20,9 +20,9 @@ Quy ước:
 from __future__ import annotations
 
 
-def tr(vi: str, en: str) -> dict[str, str]:
-    """Văn bản song ngữ."""
-    return {"vi": vi, "en": en}
+def tr(vi: str, en: str = "") -> dict[str, str]:
+    """Văn bản song ngữ. Nếu bỏ trống tiếng Anh thì dùng lại tiếng Việt."""
+    return {"vi": vi, "en": en or vi}
 
 
 # ---------------------------------------------------------------------
